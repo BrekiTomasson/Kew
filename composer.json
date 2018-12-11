@@ -1,0 +1,24 @@
+{
+    "name": "brekitomasson/kew",
+    "description": "Simple implementation of FIFO/LIFO in PHP.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Breki Tomasson",
+            "email": "breki.tomasson@gmail.com"
+        }
+    ],
+    "require": {
+        "phpspec/phpspec": "^5.1"
+    },
+    "scripts": {
+        "spec": "phpspec run --config phpspec.yml"
+    },
+    "autoload": {
+        "psr-4": {
+            "BrekiTomasson\\": "src/",
+            "spec\\BrekiTomasson\\": "spec/"
+        }
+    }
+}
