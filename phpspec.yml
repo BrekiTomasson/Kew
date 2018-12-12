@@ -1,4 +1,0 @@
-suites:
-  kew:
-    namespace: BrekiTomasson
-    psr4_prefix: BrekiTomasson
