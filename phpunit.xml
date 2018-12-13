@@ -11,7 +11,6 @@
         convertWarningsToExceptions="true"
         forceCoversAnnotation="false"
         printerClass="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
-        printerFile="Codedungeon\PHPUnitPrettyResultPrinter\Printer"
         processIsolation="false"
         stopOnError="false"
         stopOnFailure="false"

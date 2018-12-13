@@ -1,0 +1,63 @@
+BrekiTomasson\KewTest\Kew
+ [x] Create a new instance of the object
+ [x] Access the first value of the Kew with data set "integers"
+ [x] Access the first value of the Kew with data set "floats"
+ [x] Access the first value of the Kew with data set "strings"
+ [x] Access the first value of the Kew with data set "arrays"
+ [x] Access the first value of the Kew with data set "objects"
+ [x] Access the second value of the Kew with data set "integers"
+ [x] Access the second value of the Kew with data set "floats"
+ [x] Access the second value of the Kew with data set "strings"
+ [x] Access the second value of the Kew with data set "arrays"
+ [x] Access the second value of the Kew with data set "objects"
+ [x] Ensure that isEmpty() correctly evalueates empty Kews
+ [x] Ensure that isEmpty() correctly evalueates empty Kews
+ [x] Add
+ [x] Exception adding different types with data set "strings are not integers"
+ [x] Exception adding different types with data set "integers are not floats"
+ [x] Exception adding different types with data set "floats are not strings"
+ [x] Exception adding different types with data set "arrays are not strings"
+ [x] Exception adding different types with data set "arrays are not objects"
+ [x] Bottom
+ [x] Size
+ [x] Push with data set "integers"
+ [x] Push with data set "floats"
+ [x] Push with data set "strings"
+ [x] Push with data set "arrays"
+ [x] Push with data set "objects"
+ [x] Instantiate Kew with different options
+ [x] Read the last entry in the Kew with data set "integers"
+ [x] Read the last entry in the Kew with data set "floats"
+ [x] Read the last entry in the Kew with data set "strings"
+ [x] Read the last entry in the Kew with data set "arrays"
+ [x] Read the last entry in the Kew with data set "objects"
+ [x] Ensure that last() does not change the contents of a Kew
+ [x] Pop with data set "integers"
+ [x] Pop with data set "floats"
+ [x] Pop with data set "strings"
+ [x] Pop with data set "arrays"
+ [x] Pop with data set "objects"
+ [x] Top with data set "integers"
+ [x] Top with data set "floats"
+ [x] Top with data set "strings"
+ [x] Top with data set "arrays"
+ [x] Top with data set "objects"
+ [x] Next with data set "integers"
+ [x] Next with data set "floats"
+ [x] Next with data set "strings"
+ [x] Next with data set "arrays"
+ [x] Next with data set "objects"
+ [x] Add many with data set "integers"
+ [x] Add many with data set "floats"
+ [x] Add many with data set "strings"
+ [x] Add many with data set "arrays"
+ [x] Add many with data set "objects"
+ [x] Create next f i f o with data set "integers"
+ [x] Create next f i f o with data set "floats"
+ [x] Create next f i f o with data set "strings"
+ [x] Create next f i f o with data set "arrays"
+ [x] Create next f i f o with data set "objects"
+ [x] Fail getting from empty kew
+ [x] Fail nexting from empty kew
+ [x] Setting option that does not exist
+

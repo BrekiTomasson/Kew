@@ -1,18 +1,43 @@
 <?php
+declare(strict_types=1);
 
 namespace BrekiTomasson\Kew;
 
 use BrekiTomasson\Kew\Exceptions\KewIsEmpty;
 use BrekiTomasson\Kew\Exceptions\KewTypeInvalid;
 
+/**
+ * Class Kew
+ *
+ * @package BrekiTomasson\Kew
+ * @version 1.0.1
+ */
 class Kew implements KewInterface
 {
+    /** @var int The amount of items in the Kew object. */
     private $listsize = 0;
+
+    /** @var mixed The next item in the Kew object. */
     private $listnext;
+
+    /** @var mixed The last item in the Kew object. */
     private $listlast;
+
+    /** @var string The type of objects that the Kew object contains. */
     private $type;
+
+    /** @var array The actual list that the Kew object interacts with. */
     private $list = [];
-    private $options;
+
+    /** @var array Any options relevant for the Kew object, with defaults. */
+    private $options = [
+        'typed'    => true,
+        'nextable' => true,
+        'lastable' => true,
+        'sizeable' => true,
+        'readable' => true,
+        'stack'    => false,
+    ];
 
     /**
      * @param array $options
@@ -21,31 +46,47 @@ class Kew implements KewInterface
      */
     public function __construct($options = [])
     {
-        $this->options = [
-            'typed'    => true,
-            'nextable' => true,
-            'lastable' => true,
-            'sizeable' => true,
-            'readable' => true,
-            'stack'    => false,
-        ];
-
-        foreach ($options as $key => $value) {
-            $this->options[$key] = $value;
+        if (\count($options) >= 1) {
+            $this->setOption($options);
         }
 
-        if ($this->options['readable'] === false) {
-            $this->options['lastable'] = false;
-            $this->options['nextable'] = false;
-            $this->options['sizeable'] = false;
+        if ($this->getOption('readable') === false) {
+            $this->setOption([
+                'lastable' => false,
+                'nextable' => false,
+                'sizeable' => false
+            ]);
         }
     }
 
     /**
-     * Adds one or more (comma separated) items to the queue.
+     * @param array $options
+     */
+    public function setOption(array $options): void
+    {
+        foreach ($options as $key => $value) {
+            if (array_key_exists($key, $this->options)) {
+                $this->options[$key] = $value;
+            }
+        }
+    }
+
+    /**
+     * @param string $field
      *
-     * Note, trying to add an array will treat the array as a single item to be
-     * added to the list.
+     * @return mixed|null
+     */
+    public function getOption(string $field)
+    {
+        if (array_key_exists($field, $this->options)) {
+            return $this->options[$field];
+        }
+
+        return null;
+    }
+
+    /**
+     * Adds one or more (comma separated) items to the queue.
      *
      * @param mixed $item
      * @param mixed ...$items
@@ -53,24 +94,14 @@ class Kew implements KewInterface
      * @return void
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
      */
-    public function add($item, ...$items)
+    public function add($item, ...$items) : void
     {
-        // Define our resource type.
-        if ($this->isEmpty() === true) {
-            $this->type = $this->options['typed'] ? \gettype($item) : null;
-            $this->listnext = $this->options['nextable'] ? $item : null;
-        } elseif (\gettype($item) !== $this->type && $this->options['typed'] === true) {
-            throw new KewTypeInvalid('Expected ' . $this->type . ', got ' . \gettype($item) . '.');
-        }
+        $this->setKewType($item);
+        $this->updateKew($item);
 
-        $this->list[] = $item;
-        $this->listlast = $item;
-        ++$this->listsize;
-
-        if (array_key_exists(0, $items)) {
+        if (\count($items) !== 0) {
             $this->addMany($items);
         }
-
     }
 
     /**
@@ -91,11 +122,11 @@ class Kew implements KewInterface
         try {
             $item = $this->prepareNextFIFO();
 
-            if ($item !== null) {
-                return $item;
+            if ($item === null) {
+                throw new KewIsEmpty();
             }
 
-            throw new KewIsEmpty();
+            return $item;
         } catch (KewIsEmpty $emptyException) {
             // Throw it higher up the stack.
             throw $emptyException;
@@ -208,4 +239,30 @@ class Kew implements KewInterface
 
         return $item;
     }
+
+    /**
+     * @param $item
+     *
+     * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
+     */
+    protected function setKewType($item): void
+    {
+        if ($this->isEmpty() === true) {
+            $this->type = $this->options['typed'] ? \gettype($item) : null;
+            $this->listnext = $this->options['nextable'] ? $item : null;
+        } elseif ($this->options['typed'] === true && \gettype($item) !== $this->type) {
+            throw new KewTypeInvalid('Expected ' . $this->type . ', got ' . \gettype($item) . '.');
+        }
+    }
+
+    /**
+     * @param $item
+     */
+    protected function updateKew($item): void
+    {
+        $this->list[] = $item;
+        $this->listlast = $item;
+        ++$this->listsize;
+    }
+
 }
