@@ -162,7 +162,7 @@ are where they want to be.
 
 # TODO / Future development
 
-- [ ] Implement the stack functionality.
+- [X] Implement the stack functionality.
 - [ ] Implement a 'max size' feature (off by default) with these options:
 - [ ] If max size is reached, return exception.
 - [ ] If max size is reached, bump item from queue/stack.

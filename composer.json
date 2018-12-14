@@ -2,7 +2,7 @@
   "name": "brekitomasson/kew",
   "description": "Simple implementation of FIFO/LIFO in PHP.",
   "type": "library",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "authors": [
     {
@@ -19,7 +19,11 @@
   },
   "autoload": {
     "psr-4": {
-      "BrekiTomasson\\Kew\\": "src/",
+      "BrekiTomasson\\Kew\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "BrekiTomasson\\KewTest\\": "test/"
     }
   }

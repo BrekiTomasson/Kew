@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace BrekiTomasson\Kew;
 
+use BrekiTomasson\Kew\Exceptions\KewInternalConsistency;
 use BrekiTomasson\Kew\Exceptions\KewIsEmpty;
 use BrekiTomasson\Kew\Exceptions\KewTypeInvalid;
 
@@ -94,7 +95,7 @@ class Kew implements KewInterface
      * @return void
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
      */
-    public function add($item, ...$items) : void
+    public function add($item, ...$items): void
     {
         $this->setKewType($item);
         $this->updateKew($item);
@@ -115,12 +116,13 @@ class Kew implements KewInterface
     /**
      * @return mixed
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      */
     public function get()
     {
         // wrapping all these in a try to ensure we don't get half executions.
         try {
-            $item = $this->prepareNextFIFO();
+            $item = $this->getOption('stack') ? $this->getNextStacked() : $this->getNextQueued();
 
             if ($item === null) {
                 throw new KewIsEmpty();
@@ -165,6 +167,7 @@ class Kew implements KewInterface
 
     /**
      * @return mixed
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      */
     public function pop()
@@ -222,8 +225,9 @@ class Kew implements KewInterface
 
     /**
      * @return mixed
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      */
-    protected function prepareNextFIFO()
+    protected function getNextQueued()
     {
         $item = \array_shift($this->list);
 
@@ -231,8 +235,37 @@ class Kew implements KewInterface
             --$this->listsize;
         }
 
+        if (\count($this->list) !== $this->listsize) {
+            throw new KewInternalConsistency('Kew item count mismatch error.');
+        }
+
         if (array_key_exists(0, $this->list)) {
             $this->listnext = $this->options['nextable'] ? $this->list[0] : null;
+        } else {
+            unset($this->listnext);
+        }
+
+        return $item;
+    }
+
+    /**
+     * @return mixed
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
+     */
+    protected function getNextStacked()
+    {
+        $item = \array_pop($this->list);
+
+        if ($this->listsize >= 1) {
+            --$this->listsize;
+        }
+
+        if (\count($this->list) !== $this->listsize) {
+            throw new KewInternalConsistency('Kew item count mismatch error.');
+        }
+
+        if (\count($this->list) !== 0) {
+            $this->listnext = $this->options['nextable'] ? end($this->list) : null;
         } else {
             unset($this->listnext);
         }
@@ -248,8 +281,9 @@ class Kew implements KewInterface
     protected function setKewType($item): void
     {
         if ($this->isEmpty() === true) {
-            $this->type = $this->options['typed'] ? \gettype($item) : null;
-            $this->listnext = $this->options['nextable'] ? $item : null;
+            $this->type = $this->getOption('typed') ? \gettype($item) : null;
+            $this->listnext = $this->getOption('nextable') ? $item : null;
+            $this->listlast = $this->getOption('lastable') ? $item : null;
         } elseif ($this->options['typed'] === true && \gettype($item) !== $this->type) {
             throw new KewTypeInvalid('Expected ' . $this->type . ', got ' . \gettype($item) . '.');
         }
@@ -261,8 +295,15 @@ class Kew implements KewInterface
     protected function updateKew($item): void
     {
         $this->list[] = $item;
-        $this->listlast = $item;
         ++$this->listsize;
+
+        if ($this->getOption('lastable')) {
+            $this->listlast = $this->getOption('stack') ? reset($this->list) : end($this->list);
+        }
+
+        if ($this->getOption('nextable')) {
+            $this->listnext = $this->getOption('stack') ? end($this->list) : reset($this->list);
+        }
     }
 
 }

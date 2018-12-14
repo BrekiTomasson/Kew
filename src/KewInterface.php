@@ -2,6 +2,11 @@
 
 namespace BrekiTomasson\Kew;
 
+/**
+ * Interface KewInterface
+ *
+ * @package BrekiTomasson\Kew
+ */
 interface KewInterface
 {
     /**

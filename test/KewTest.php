@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace BrekiTomasson\KewTest;
 
 use BrekiTomasson\Kew\Kew;
@@ -16,7 +18,7 @@ class KewTest extends TestCase
      * @testdox Create a new instance of the object
      * @covers  \BrekiTomasson\Kew\Kew
      */
-    public function testCanBeCreated() : void
+    public function testCanBeCreated(): void
     {
         $kew = new Kew();
         $this->assertInstanceOf(Kew::class, $kew);
@@ -30,10 +32,11 @@ class KewTest extends TestCase
      *
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @covers       \BrekiTomasson\Kew\Kew::get
      * @covers       \BrekiTomasson\Kew\Kew::updateKew
      * @dataProvider sameTypeProvider
-     * @testdox Access the first value of the Kew
+     * @testdox      Access the first value of the Kew
      */
     public function testGetFirstValue($a, $b, $c, $d): void
     {
@@ -52,12 +55,13 @@ class KewTest extends TestCase
      * @param $c
      * @param $d
      *
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
      * @covers       \BrekiTomasson\Kew\Kew::get
      * @covers       \BrekiTomasson\Kew\Kew::updateKew
      * @dataProvider sameTypeProvider
-     * @testdox Access the second value of the Kew
+     * @testdox      Access the second value of the Kew
      */
     public function testGetSecondValue($a, $b, $c, $d): void
     {
@@ -154,6 +158,7 @@ class KewTest extends TestCase
      * Essentially the same test as the one for Kew::last()
      *
      * @covers \BrekiTomasson\Kew\Kew::bottom
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
      */
@@ -188,6 +193,7 @@ class KewTest extends TestCase
      * @param $c
      * @param $d
      *
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
      * @dataProvider sameTypeProvider
@@ -224,13 +230,14 @@ class KewTest extends TestCase
      * @param $c
      * @param $d
      *
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
-     * @covers \BrekiTomasson\Kew\Kew::last
+     * @covers       \BrekiTomasson\Kew\Kew::last
      * @dataProvider sameTypeProvider
-     * @testdox Read the last entry in the Kew
+     * @testdox      Read the last entry in the Kew
      */
-    public function testLast($a, $b, $c, $d) : void
+    public function testLast($a, $b, $c, $d): void
     {
         $kew = new Kew();
         $kew->add($a, $b, $c, $d);
@@ -243,7 +250,7 @@ class KewTest extends TestCase
 
     /**
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
-     * @covers \BrekiTomasson\Kew\Kew::get
+     * @covers  \BrekiTomasson\Kew\Kew::get
      * @testdox Ensure that last() does not change the contents of a Kew
      */
     public function testLastDoesNotchangeContents(): void
@@ -272,6 +279,7 @@ class KewTest extends TestCase
      * @param $c
      * @param $d
      *
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
      * @dataProvider sameTypeProvider
@@ -292,6 +300,7 @@ class KewTest extends TestCase
      * @param $c
      * @param $d
      *
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
      * @covers       \BrekiTomasson\Kew\Kew::top
@@ -314,6 +323,7 @@ class KewTest extends TestCase
      * @param $c
      * @param $d
      *
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
      * @covers       \BrekiTomasson\Kew\Kew::next
@@ -334,13 +344,14 @@ class KewTest extends TestCase
      * @param $c
      * @param $d
      *
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
      * @covers       \BrekiTomasson\Kew\Kew::add
      * @covers       \BrekiTomasson\Kew\Kew::addMany
      * @dataProvider sameTypeProvider
      */
-    public function testAddMany($a, $b, $c, $d) : void
+    public function testAddMany($a, $b, $c, $d): void
     {
         $kew = new Kew();
         $kew->add($a, $b, $c, $d);
@@ -356,11 +367,12 @@ class KewTest extends TestCase
      * @param $c
      * @param $d
      *
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
      * @dataProvider sameTypeProvider
      */
-    public function testCreateNextFIFO($a, $b, $c, $d) : void
+    public function testCreateNextFIFO($a, $b, $c, $d): void
     {
         $kew = new Kew();
         $kew->add($a, $b, $c, $d);
@@ -378,10 +390,11 @@ class KewTest extends TestCase
     }
 
     /**
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @expectedException \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      */
-    public function testFailGettingFromEmptyKew () : void
+    public function testFailGettingFromEmptyKew(): void
     {
         $kew = new Kew();
         $kew->get();
@@ -397,9 +410,39 @@ class KewTest extends TestCase
         $kew->next();
     }
 
-    public function testSettingOptionThatDoesNotExist() : void
+    public function testSettingOptionThatDoesNotExist(): void
     {
         $kew = new Kew(['invisible' => true]);
         $this->assertNull($kew->getOption('invisible'));
+    }
+
+    /**
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
+     * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
+     * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
+     * @covers \BrekiTomasson\Kew\Kew::add
+     */
+    public function testCreatingStackedKew(): void
+    {
+        $kew = new Kew(['stack' => true]);
+        $kew->add('item one');
+        $kew->add('item two');
+        $this->assertSame('item two', $kew->get());
+    }
+
+    /**
+     * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
+     * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
+     * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
+     */
+    public function testCreatingAndNextingStackedKew(): void
+    {
+        $kew = new Kew(['stack' => true]);
+        $kew->add('one');
+        $kew->add('two');
+        $this->assertSame('two', $kew->next());
+        $kew->add('three');
+        $this->assertSame('three', $kew->get());
+        $this->assertSame('two', $kew->get());
     }
 }
