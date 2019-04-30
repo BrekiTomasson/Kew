@@ -5,9 +5,7 @@ namespace BrekiTomasson\Kew\Exceptions;
 use Exception;
 
 /**
- * Class KewTypeInvalid
- *
- * @package BrekiTomasson\Kew\Exceptions
+ * Class KewTypeInvalid.
  */
 class KewTypeInvalid extends Exception
 {

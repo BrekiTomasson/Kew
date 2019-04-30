@@ -3,9 +3,7 @@
 namespace BrekiTomasson\Kew;
 
 /**
- * Interface KewInterface
- *
- * @package BrekiTomasson\Kew
+ * Interface KewInterface.
  */
 interface KewInterface
 {
@@ -43,10 +41,14 @@ interface KewInterface
     public function size(): int;
 
     public function bottom();
-    public function get();
-    public function last();
-    public function next();
-    public function pop();
-    public function top();
 
+    public function get();
+
+    public function last();
+
+    public function next();
+
+    public function pop();
+
+    public function top();
 }

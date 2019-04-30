@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace BrekiTomasson\Kew;
@@ -8,9 +9,8 @@ use BrekiTomasson\Kew\Exceptions\KewIsEmpty;
 use BrekiTomasson\Kew\Exceptions\KewTypeInvalid;
 
 /**
- * Class Kew
+ * Class Kew.
  *
- * @package BrekiTomasson\Kew
  * @version 1.0.1
  */
 class Kew implements KewInterface
@@ -55,7 +55,7 @@ class Kew implements KewInterface
             $this->setOption([
                 'lastable' => false,
                 'nextable' => false,
-                'sizeable' => false
+                'sizeable' => false,
             ]);
         }
     }
@@ -82,8 +82,6 @@ class Kew implements KewInterface
         if (array_key_exists($field, $this->options)) {
             return $this->options[$field];
         }
-
-        return null;
     }
 
     /**
@@ -92,8 +90,9 @@ class Kew implements KewInterface
      * @param mixed $item
      * @param mixed ...$items
      *
-     * @return void
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
+     *
+     * @return void
      */
     public function add($item, ...$items): void
     {
@@ -114,9 +113,10 @@ class Kew implements KewInterface
     }
 
     /**
-     * @return mixed
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
+     *
+     * @return mixed
      */
     public function get()
     {
@@ -140,7 +140,7 @@ class Kew implements KewInterface
      */
     public function isEmpty(): bool
     {
-        return ! $this->size();
+        return !$this->size();
     }
 
     /**
@@ -152,8 +152,9 @@ class Kew implements KewInterface
     }
 
     /**
-     * @return mixed
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
+     *
+     * @return mixed
      */
     public function next()
     {
@@ -166,9 +167,10 @@ class Kew implements KewInterface
     }
 
     /**
-     * @return mixed
      * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
+     *
+     * @return mixed
      */
     public function pop()
     {
@@ -184,10 +186,11 @@ class Kew implements KewInterface
     }
 
     /**
-     * Alias method for next();
+     * Alias method for next();.
+     *
+     * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      *
      * @return mixed
-     * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      */
     public function top()
     {
@@ -224,15 +227,16 @@ class Kew implements KewInterface
     }
 
     /**
-     * @return mixed
      * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
+     *
+     * @return mixed
      */
     protected function getNextQueued()
     {
         $item = \array_shift($this->list);
 
         if ($this->listsize >= 1) {
-            --$this->listsize;
+            $this->listsize--;
         }
 
         if (\count($this->list) !== $this->listsize) {
@@ -249,15 +253,16 @@ class Kew implements KewInterface
     }
 
     /**
-     * @return mixed
      * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
+     *
+     * @return mixed
      */
     protected function getNextStacked()
     {
         $item = \array_pop($this->list);
 
         if ($this->listsize >= 1) {
-            --$this->listsize;
+            $this->listsize--;
         }
 
         if (\count($this->list) !== $this->listsize) {
@@ -285,7 +290,7 @@ class Kew implements KewInterface
             $this->listnext = $this->getOption('nextable') ? $item : null;
             $this->listlast = $this->getOption('lastable') ? $item : null;
         } elseif ($this->options['typed'] === true && \gettype($item) !== $this->type) {
-            throw new KewTypeInvalid('Expected ' . $this->type . ', got ' . \gettype($item) . '.');
+            throw new KewTypeInvalid('Expected '.$this->type.', got '.\gettype($item).'.');
         }
     }
 
@@ -295,7 +300,7 @@ class Kew implements KewInterface
     protected function updateKew($item): void
     {
         $this->list[] = $item;
-        ++$this->listsize;
+        $this->listsize++;
 
         if ($this->getOption('lastable')) {
             $this->listlast = $this->getOption('stack') ? reset($this->list) : end($this->list);
@@ -305,5 +310,4 @@ class Kew implements KewInterface
             $this->listnext = $this->getOption('stack') ? end($this->list) : reset($this->list);
         }
     }
-
 }

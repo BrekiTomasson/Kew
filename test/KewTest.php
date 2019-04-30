@@ -8,7 +8,7 @@ use BrekiTomasson\Kew\Kew;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Class KewTest
+ * Class KewTest.
  *
  * @covers \BrekiTomasson\Kew\Kew
  */
@@ -90,6 +90,7 @@ class KewTest extends TestCase
     /**
      * @covers  \BrekiTomasson\Kew\Kew::isEmpty
      * @testdox Ensure that isEmpty() correctly evalueates empty Kews
+     *
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
      */
     public function testIsEmptyFalse(): void
@@ -102,6 +103,7 @@ class KewTest extends TestCase
     /**
      * @covers \BrekiTomasson\Kew\Kew::add
      * @covers \BrekiTomasson\Kew\Kew::isEmpty
+     *
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
      */
     public function testAdd(): void
@@ -120,7 +122,7 @@ class KewTest extends TestCase
             'floats'   => [1.23, 2.18, 3.14, 4.56],
             'strings'  => ['John', 'Paul', 'George', 'Ringo'],
             'arrays'   => [[123, 'string'], ['string', 'another string'], ['string', 123], [123, 123, 512312]],
-            'objects'  => [new \stdClass(), new \stdClass(), new \stdClass(), new \stdClass()]
+            'objects'  => [new \stdClass(), new \stdClass(), new \stdClass(), new \stdClass()],
         ];
     }
 
@@ -132,7 +134,7 @@ class KewTest extends TestCase
             'integers are not floats'  => [123, 3.14],
             'floats are not strings'   => [6.18, 'a string'],
             'arrays are not strings'   => [['string'], 'string'],
-            'arrays are not objects'   => [['this', 'is', 'an', 'array'], new \stdClass()]
+            'arrays are not objects'   => [['this', 'is', 'an', 'array'], new \stdClass()],
         ];
     }
 
@@ -155,9 +157,10 @@ class KewTest extends TestCase
     }
 
     /**
-     * Essentially the same test as the one for Kew::last()
+     * Essentially the same test as the one for Kew::last().
      *
      * @covers \BrekiTomasson\Kew\Kew::bottom
+     *
      * @throws \BrekiTomasson\Kew\Exceptions\KewInternalConsistency
      * @throws \BrekiTomasson\Kew\Exceptions\KewIsEmpty
      * @throws \BrekiTomasson\Kew\Exceptions\KewTypeInvalid
@@ -293,7 +296,7 @@ class KewTest extends TestCase
     }
 
     /**
-     * Shows you what's at the top of the pile, essentially the same as next():
+     * Shows you what's at the top of the pile, essentially the same as next():.
      *
      * @param $a
      * @param $b

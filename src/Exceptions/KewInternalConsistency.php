@@ -7,9 +7,7 @@ namespace BrekiTomasson\Kew\Exceptions;
 use Exception;
 
 /**
- * Class KewInternalConsistency
- *
- * @package BrekiTomasson\Kew\Exceptions
+ * Class KewInternalConsistency.
  */
 class KewInternalConsistency extends Exception
 {
