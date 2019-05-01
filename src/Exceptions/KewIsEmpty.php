@@ -5,9 +5,7 @@ namespace BrekiTomasson\Kew\Exceptions;
 use Exception;
 
 /**
- * Class KewIsEmpty
- *
- * @package BrekiTomasson\Kew\Exceptions
+ * Class KewIsEmpty.
  */
 class KewIsEmpty extends Exception
 {

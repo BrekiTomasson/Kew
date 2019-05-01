@@ -5,9 +5,7 @@ namespace BrekiTomasson\Kew\Exceptions;
 use Exception;
 
 /**
- * Class KewOperationNotPermitted
- *
- * @package BrekiTomasson\Kew\Exceptions
+ * Class KewOperationNotPermitted.
  */
 class KewOperationNotPermitted extends Exception
 {
